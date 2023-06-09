@@ -1,14 +1,20 @@
-// import readline from 'readline';
+import readline from 'readline';
 
-// const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// });
+const __dirname = new URL('.', import.meta.url).pathname.slice(1);
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-// rl.question('npm run start -- --username=', name => {
-//     console.log(`Welcome to the File Manager, ${name}!`);
-//     rl.close();
-// });
+const ask = () => {
+    rl.question('some question', answer => {
+        console.log(`Here is answer: , ${answer}!`);
+    });
+};
+
+const printCurrentPath = () => {
+    console.log(`You are currently in ${__dirname}`);
+};
 
 const getUserName = () => {
     const args = process.argv.slice(2);
@@ -16,20 +22,37 @@ const getUserName = () => {
     const username = args.find((arg) => arg.match(regexp));
     const res = username.substring(username.indexOf('=')).slice(1);
     return res;
-}
+};
 
 const exit = () => {
     console.log(`Thank you for using File Manager, ${getUserName()}, goodbye!`);
-    process.exit(0);
-}
+    rl.close();
+};
+
+const showUnknown = (invalid) => {
+    console.log(`Invalid input: ${invalid}`);
+    ask();
+};
+
+const showError = (err) => {
+    console.log(`Operation failed!\nError: ${err}`);
+    exit();
+};
 
 const start = () => {
     console.log(`Welcome to the File Manager, ${getUserName()}!`);
-    exit();
-}
+    printCurrentPath();
+    rl.on('SIGINT', () => exit());
+    rl.on('SIGQUIT', () => exit());
+    rl.on('SIGTERM', () => exit());
+    rl.on('line', (input) => {
+        console.log(input);
+    })
+    ask();
+};
 
-const init  = () => {
+const init = () => {
     start();
-}
+};
 
 init();
