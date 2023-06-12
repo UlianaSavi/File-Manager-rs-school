@@ -1,19 +1,31 @@
 import readline from 'readline';
+import { up } from './scripts/navigation/up.js';
+import { goToFolder } from './scripts/navigation/goToFolder.js';
 
-const __dirname = new URL('.', import.meta.url).pathname.slice(1);
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-const ask = () => {
-    rl.question('some question', answer => {
-        console.log(`Here is answer: , ${answer}!`);
-    });
+const printCurrentPath = () => {
+    console.log(`You are currently in ${process.cwd()}`);
 };
 
-const printCurrentPath = () => {
-    console.log(`You are currently in ${__dirname}`);
+const ask = () => {
+    printCurrentPath();
+    rl.question('What you want to do? ', answer => {
+        if (answer === 'up') {
+            up();
+        }
+        if (answer.includes('cd ')) {
+            goToFolder(answer.slice(3));
+        } else {
+            showUnknown(answer);
+            return;
+        }
+        printCurrentPath();
+        ask();
+    });
 };
 
 const getUserName = () => {
@@ -26,28 +38,28 @@ const getUserName = () => {
 
 const exit = () => {
     console.log(`Thank you for using File Manager, ${getUserName()}, goodbye!`);
+    printCurrentPath();
     rl.close();
 };
 
 const showUnknown = (invalid) => {
-    console.log(`Invalid input: ${invalid}`);
+    console.log(`\nInvalid input: ${invalid}`);
     ask();
 };
 
 const showError = (err) => {
-    console.log(`Operation failed!\nError: ${err}`);
+    console.log(`\nOperation failed!\nError: ${err}`);
     exit();
 };
 
 const start = () => {
     console.log(`Welcome to the File Manager, ${getUserName()}!`);
-    printCurrentPath();
     rl.on('SIGINT', () => exit());
     rl.on('SIGQUIT', () => exit());
     rl.on('SIGTERM', () => exit());
     rl.on('line', (input) => {
         console.log(input);
-    })
+    });
     ask();
 };
 
