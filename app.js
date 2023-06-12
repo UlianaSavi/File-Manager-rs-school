@@ -1,6 +1,7 @@
 import readline from 'readline';
 import { up } from './scripts/navigation/up.js';
 import { goToFolder } from './scripts/navigation/goToFolder.js';
+import { showTable } from './scripts/navigation/ls.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -19,6 +20,9 @@ const ask = () => {
         }
         if (answer.includes('cd ')) {
             goToFolder(answer.slice(3));
+        }
+        if (answer === 'ls') {
+            showTable();
         } else {
             showUnknown(answer);
             return;
@@ -37,8 +41,8 @@ const getUserName = () => {
 };
 
 const exit = () => {
-    console.log(`Thank you for using File Manager, ${getUserName()}, goodbye!`);
     printCurrentPath();
+    console.log(`Thank you for using File Manager, ${getUserName()}, goodbye!`);
     rl.close();
 };
 
