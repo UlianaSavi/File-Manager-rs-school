@@ -2,6 +2,7 @@ import readline from 'readline';
 import { up } from './scripts/navigation/up.js';
 import { goToFolder } from './scripts/navigation/goToFolder.js';
 import { showTable } from './scripts/navigation/ls.js';
+import { read } from './scripts/basic/read.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -13,8 +14,7 @@ const printCurrentPath = () => {
 };
 
 const ask = () => {
-    printCurrentPath();
-    rl.question('What you want to do? ', answer => {
+    rl.question('What you want to do? ', async answer => {
         if (answer === 'up') {
             up();
         }
@@ -23,9 +23,11 @@ const ask = () => {
         }
         if (answer === 'ls') {
             showTable();
+        }
+        if (answer.includes('cat ')) {
+            await read(answer.slice(4));
         } else {
             showUnknown(answer);
-            return;
         }
         printCurrentPath();
         ask();
@@ -48,7 +50,6 @@ const exit = () => {
 
 const showUnknown = (invalid) => {
     console.log(`\nInvalid input: ${invalid}`);
-    ask();
 };
 
 const showError = (err) => {
