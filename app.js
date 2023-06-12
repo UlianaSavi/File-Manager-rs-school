@@ -3,31 +3,47 @@ import { up } from './scripts/navigation/up.js';
 import { goToFolder } from './scripts/navigation/goToFolder.js';
 import { showTable } from './scripts/navigation/ls.js';
 import { read } from './scripts/basic/read.js';
+import { create } from './scripts/basic/create.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
+const COMMANDS = {
+    UP: 'up',
+    CD: 'cd',
+    LS: 'ls',
+    CAT: 'cat',
+    ADD: 'add'
+};
+
 const printCurrentPath = () => {
-    console.log(`You are currently in ${process.cwd()}`);
+    console.log(`\nYou are currently in ${process.cwd()}`);
 };
 
 const ask = () => {
-    rl.question('What you want to do? ', async answer => {
-        if (answer === 'up') {
-            up();
-        }
-        if (answer.includes('cd ')) {
-            goToFolder(answer.slice(3));
-        }
-        if (answer === 'ls') {
-            showTable();
-        }
-        if (answer.includes('cat ')) {
-            await read(answer.slice(4));
-        } else {
-            showUnknown(answer);
+    rl.question('What you want to do? ', async (answer) => {
+        const command = answer.split(' ').at(0);
+        switch (command) {
+            case COMMANDS.UP:
+                up();
+                break;
+            case COMMANDS.CD:
+                goToFolder(answer.slice(3));
+                break;
+            case COMMANDS.LS:
+                showTable();
+                break;
+            case COMMANDS.CAT:
+                await read(answer.slice(4));
+                break;
+            case COMMANDS.ADD:
+                await create(answer.slice(4));
+                break;
+            default:
+                showUnknown(answer);
+                break;
         }
         printCurrentPath();
         ask();
