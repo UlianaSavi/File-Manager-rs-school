@@ -1,4 +1,5 @@
 import readline from 'readline';
+import { COMMANDS } from './constants.js';
 import { up } from './scripts/navigation/up.js';
 import { goToFolder } from './scripts/navigation/goToFolder.js';
 import { showTable } from './scripts/navigation/ls.js';
@@ -8,23 +9,12 @@ import { rename } from './scripts/basic/rename.js';
 import { copy } from './scripts/basic/copy.js';
 import { move } from './scripts/basic/move.js';
 import { remove } from './scripts/basic/remove.js';
+import { os } from './scripts/operating_system/os.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
-const COMMANDS = {
-    UP: 'up',
-    CD: 'cd',
-    LS: 'ls',
-    CAT: 'cat',
-    ADD: 'add',
-    RN: 'rn',
-    CP: 'cp',
-    MV: 'mv',
-    RM: 'rm'
-};
 
 const printCurrentPath = () => {
     console.log(`\nYou are currently in ${process.cwd()}`);
@@ -60,6 +50,9 @@ const ask = () => {
                 break;
             case COMMANDS.RM:
                 remove(answer.slice(3));
+                break;
+            case COMMANDS.OS:
+                os(answer.slice(3));
                 break;
             default:
                 showUnknown(answer);
