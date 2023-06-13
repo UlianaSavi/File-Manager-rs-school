@@ -4,6 +4,8 @@ import { goToFolder } from './scripts/navigation/goToFolder.js';
 import { showTable } from './scripts/navigation/ls.js';
 import { read } from './scripts/basic/read.js';
 import { create } from './scripts/basic/create.js';
+import { rename } from './scripts/basic/rename.js';
+import { copy } from './scripts/basic/copy.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -15,7 +17,9 @@ const COMMANDS = {
     CD: 'cd',
     LS: 'ls',
     CAT: 'cat',
-    ADD: 'add'
+    ADD: 'add',
+    RN: 'rn',
+    CP: 'cp'
 };
 
 const printCurrentPath = () => {
@@ -40,6 +44,12 @@ const ask = () => {
                 break;
             case COMMANDS.ADD:
                 await create(answer.slice(4));
+                break;
+            case COMMANDS.RN:
+                await rename(answer.slice(3));
+                break;
+            case COMMANDS.CP:
+                await copy(answer.slice(3));
                 break;
             default:
                 showUnknown(answer);

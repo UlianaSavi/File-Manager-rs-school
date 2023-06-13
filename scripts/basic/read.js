@@ -1,7 +1,5 @@
 import fs from 'fs';
 
-const __dirname = new URL('.', import.meta.url).pathname.slice(1);
-
 export const read = async (fileToRead = '') => {
     return new Promise((resolve, reject) => {
         let data = '';
