@@ -9,7 +9,7 @@ import { rename } from './scripts/basic/rename.js';
 import { copy } from './scripts/basic/copy.js';
 import { move } from './scripts/basic/move.js';
 import { remove } from './scripts/basic/remove.js';
-import { os } from './scripts/operating_system/os.js';
+import { showOs } from './scripts/operating_system/os.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -52,7 +52,7 @@ const ask = () => {
                 remove(answer.slice(3));
                 break;
             case COMMANDS.OS:
-                os(answer.slice(3));
+                showOs(answer.slice(3));
                 break;
             default:
                 showUnknown(answer);

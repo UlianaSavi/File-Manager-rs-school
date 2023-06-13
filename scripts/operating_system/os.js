@@ -1,3 +1,5 @@
+import os from 'os';
+
 const COMMANDS = {
     EOL: '--EOL',
     CPUS: '--cpus',
@@ -7,11 +9,18 @@ const COMMANDS = {
 };
 
 const showEol = () => {
-    console.log(123);
+    console.log('EOL: ', JSON.stringify(os.EOL));
 };
 
 const showCpus = () => {
-    console.log(123);
+    const cpusData = os.cpus();
+    const data = [];
+    const emptyInLine = 9;
+    cpusData.map((core) => {
+        data.push({MODEL: core.model.slice(0, core.model.length - emptyInLine), RATE: `${core.speed / 1000} GHz`})
+    })
+    console.log(`Cpus length: ${cpusData.length}`);
+    console.table(data);
 };
 
 const showHomedir = () => {
@@ -26,7 +35,7 @@ const showArchitecture = () => {
     console.log(123);
 };
 
-export const os = (command = '') => {
+export const showOs = (command = '') => {
     switch (command) {
         case COMMANDS.EOL:
             showEol();
