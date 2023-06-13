@@ -1,10 +1,10 @@
-import { promises as fs } from 'fs';
+import fs from 'fs';
 
 export const copy = async (line = '') => {
     const oldPath = line.split(' ').at(0);
     const newPath = line.split(' ').at(1);
     try {
-        fs.copyFile(oldPath, newPath)
+        fs.createReadStream(oldPath).pipe(fs.createWriteStream(newPath));
     } catch (err) {
         console.log(err);
     }
