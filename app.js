@@ -6,6 +6,8 @@ import { read } from './scripts/basic/read.js';
 import { create } from './scripts/basic/create.js';
 import { rename } from './scripts/basic/rename.js';
 import { copy } from './scripts/basic/copy.js';
+import { move } from './scripts/basic/move.js';
+import { remove } from './scripts/basic/remove.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -19,7 +21,9 @@ const COMMANDS = {
     CAT: 'cat',
     ADD: 'add',
     RN: 'rn',
-    CP: 'cp'
+    CP: 'cp',
+    MV: 'mv',
+    RM: 'rm'
 };
 
 const printCurrentPath = () => {
@@ -49,7 +53,13 @@ const ask = () => {
                 await rename(answer.slice(3));
                 break;
             case COMMANDS.CP:
-                await copy(answer.slice(3));
+                copy(answer.slice(3));
+                break;
+            case COMMANDS.MV:
+                move(answer.slice(3));
+                break;
+            case COMMANDS.RM:
+                remove(answer.slice(3));
                 break;
             default:
                 showUnknown(answer);
