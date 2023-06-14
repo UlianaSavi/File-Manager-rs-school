@@ -1,18 +1,28 @@
 import fs from 'fs';
 import { createBrotliDecompress } from 'zlib';
+import { check } from '../utils/check.js';
 
 export const decompress = async (line = '') => {
     const fileToDeCompress = line.split(' ').at(0);
     const pathToFile = line.split(' ').at(1);
 
-    const readStream = fs.createReadStream(fileToDeCompress);
-    const writeStream = fs.createWriteStream(pathToFile);
+    const existFileToDeCompress = await check(fileToDeCompress);
+    const existPathToFile = await check(pathToFile);
 
-    const brotli = createBrotliDecompress();
+    if (!existFileToDeCompress) {
+        console.log(`File ${ fileToDeCompress } does noe exist!`);
+    } else if (!existPathToFile) {
+        console.log(`Wrong path:  ${ pathToFile } !`);
+    } else {
+        const readStream = fs.createReadStream(fileToDeCompress);
+        const writeStream = fs.createWriteStream(pathToFile);
 
-    const stream = readStream.pipe(brotli).pipe(writeStream);
+        const brotli = createBrotliDecompress();
 
-    stream.on('finish', () => {
-        console.log('Compressing done!');
-    });
+        const stream = readStream.pipe(brotli).pipe(writeStream);
+
+        stream.on('finish', () => {
+            console.log('Compressing done!');
+        });
+    }
 };

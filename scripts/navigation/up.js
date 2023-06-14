@@ -1,4 +1,8 @@
 export const up = () => {
-    console.log('here UP');
-    process.chdir('..');
+    if(process.cwd() !== 'C:\\') {
+        process.chdir('..');
+    } else {
+        console.log('You are already in root directory!');
+        return;
+    }
 };

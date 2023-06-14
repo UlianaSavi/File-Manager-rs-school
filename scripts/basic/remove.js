@@ -1,11 +1,14 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
+import { check } from '../utils/check.js';
 
-export const remove = (line = '') => {
+export const remove = async (line = '') => {
     const path = line.split(' ').at(0);
-    fs.access(path, fs.F_OK, (err) => {
-        if (err) {
-            console.error(`\n${err}`);
-        }
-        fs.rm(path, () => console.log('\nFile deleted!'));
-    })
+    const exist = await check(path);
+    if (!exist) {
+        console.error(`\nFile does not exist!`);
+    } else {
+        fs.unlink(path, () => {
+            console.log('\nFile deleted!');
+        });
+    }
 };

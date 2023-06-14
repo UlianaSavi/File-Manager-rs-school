@@ -25,8 +25,13 @@ const printCurrentPath = () => {
 
 const ask = () => {
     rl.question('What you want to do? ', async (answer) => {
+        let closed = false;
         const command = answer.split(' ').at(0);
         switch (command) {
+            case COMMANDS.EXIT:
+                closed = true;
+                exit();
+                break;
             case COMMANDS.UP:
                 up();
                 break;
@@ -46,13 +51,13 @@ const ask = () => {
                 await rename(answer.slice(3));
                 break;
             case COMMANDS.CP:
-                copy(answer.slice(3));
+                await copy(answer.slice(3));
                 break;
             case COMMANDS.MV:
-                move(answer.slice(3));
+                await move(answer.slice(3));
                 break;
             case COMMANDS.RM:
-                remove(answer.slice(3));
+                await remove(answer.slice(3));
                 break;
             case COMMANDS.OS:
                 showOs(answer.slice(3));
@@ -61,17 +66,19 @@ const ask = () => {
                 hash(answer.slice(5));
                 break;
             case COMMANDS.COMPRESS:
-                compress(answer.slice(9));
+                await compress(answer.slice(9));
                 break;
             case COMMANDS.DECOMPRESS:
-                decompress(answer.slice(11));
+                await decompress(answer.slice(11));
                 break;
             default:
                 showUnknown(answer);
                 break;
         }
-        printCurrentPath();
-        ask();
+        if (!closed) {
+            printCurrentPath();
+            ask();
+        }
     });
 };
 
@@ -93,19 +100,11 @@ const showUnknown = (invalid) => {
     console.log(`\nInvalid input: ${invalid}`);
 };
 
-const showError = (err) => {
-    console.log(`\nOperation failed!\nError: ${err}`);
-    exit();
-};
-
 const start = () => {
     console.log(`Welcome to the File Manager, ${getUserName()}!`);
     rl.on('SIGINT', () => exit());
     rl.on('SIGQUIT', () => exit());
     rl.on('SIGTERM', () => exit());
-    rl.on('line', (input) => {
-        console.log(input);
-    });
     ask();
 };
 
