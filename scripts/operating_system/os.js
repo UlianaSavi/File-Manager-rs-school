@@ -24,15 +24,16 @@ const showCpus = () => {
 };
 
 const showHomedir = () => {
-    console.log(123);
+    console.log('homedir: ', os.homedir());
 };
 
 const showUsername = () => {
-    console.log(123);
+    const userInfo = os.userInfo();
+    console.log('username: ', userInfo.username);
 };
 
 const showArchitecture = () => {
-    console.log(123);
+    console.log('arch: ', process.arch);
 };
 
 export const showOs = (command = '') => {
