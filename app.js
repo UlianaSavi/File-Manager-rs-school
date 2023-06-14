@@ -11,6 +11,8 @@ import { move } from './scripts/basic/move.js';
 import { remove } from './scripts/basic/remove.js';
 import { showOs } from './scripts/operating_system/os.js';
 import { hash } from './scripts/hash/hash.js';
+import { compress } from './scripts/compress/compress.js';
+import { decompress } from './scripts/compress/deCompress.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -57,6 +59,12 @@ const ask = () => {
                 break;
             case COMMANDS.HASH:
                 hash(answer.slice(5));
+                break;
+            case COMMANDS.COMPRESS:
+                compress(answer.slice(9));
+                break;
+            case COMMANDS.DECOMPRESS:
+                decompress(answer.slice(11));
                 break;
             default:
                 showUnknown(answer);
