@@ -10,6 +10,7 @@ import { copy } from './scripts/basic/copy.js';
 import { move } from './scripts/basic/move.js';
 import { remove } from './scripts/basic/remove.js';
 import { showOs } from './scripts/operating_system/os.js';
+import { hash } from './scripts/hash/hash.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -53,6 +54,9 @@ const ask = () => {
                 break;
             case COMMANDS.OS:
                 showOs(answer.slice(3));
+                break;
+            case COMMANDS.HASH:
+                hash(answer.slice(5));
                 break;
             default:
                 showUnknown(answer);
