@@ -14,6 +14,6 @@ export const showTable = async () => {
         console.log('\n');
         console.table(structDatas);
       } catch (err) {
-        throw new Error(err);
+        throw new Error(`FS operation failed! Error: ${ err }`);
       }
 }
