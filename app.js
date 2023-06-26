@@ -86,7 +86,7 @@ const getUserName = () => {
     const args = process.argv.slice(2);
     const regexp = /(--)\w+/;
     const username = args.find((arg) => arg.match(regexp));
-    const res = username.substring(username.indexOf('=')).slice(1);
+    const res = username ? username.substring(username.indexOf('=')).slice(1) : 'Unknown';
     return res;
 };
 
