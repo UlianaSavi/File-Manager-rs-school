@@ -3,8 +3,8 @@ import { createBrotliDecompress } from 'zlib';
 import { check } from '../utils/check.js';
 
 export const decompress = async (line = '') => {
-    const fileToDeCompress = line.split(' ').at(0);
-    const pathToFile = line.split(' ').at(1);
+    const fileToDeCompress = line.split(' ').at(0) || '';
+    const pathToFile = line.split(' ').at(1) || '';
 
     const existFileToDeCompress = await check(fileToDeCompress);
     const existPathToFile = await check(pathToFile);
@@ -12,7 +12,7 @@ export const decompress = async (line = '') => {
     if (!existFileToDeCompress) {
         console.log(`File ${ fileToDeCompress } does noe exist!`);
     } else if (!existPathToFile) {
-        console.log(`Wrong path:  ${ pathToFile } !`);
+        console.log(`You need to enter existing path to decompressing!`); 
     } else {
         const readStream = fs.createReadStream(fileToDeCompress);
         const writeStream = fs.createWriteStream(pathToFile);
