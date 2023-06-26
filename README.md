@@ -5,6 +5,5 @@
 3. Deploy: -
 4. Done `14.06.2023` / deadline `27.06.2023`
 5. Score: `330/330`
-6. Start command:
-   `npm run start -- --username=your_username`
+6. Start command: `npm run start -- --username=your_username`
 
